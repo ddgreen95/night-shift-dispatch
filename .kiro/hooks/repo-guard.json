@@ -1,0 +1,16 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Repo guard on save",
+      "description": "On file save, fail if .env is not gitignored or if /.kiro is ignored or untracked. The guard does not print secrets.",
+      "trigger": "PostFileSave",
+      "matcher": "(\\.env(\\..*)?$|\\.gitignore$|\\.kiro/|check-repo-guards\\.mjs$)",
+      "timeout": 30,
+      "action": {
+        "type": "command",
+        "command": "node scripts/check-repo-guards.mjs"
+      }
+    }
+  ]
+}

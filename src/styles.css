@@ -1,0 +1,518 @@
+:root {
+  color-scheme: dark;
+  --bg: #100d16;
+  --bg-raise: rgba(26, 21, 34, 0.88);
+  --ink: #f6efe2;
+  --muted: #cbbba6;
+  --line: rgba(231, 196, 140, 0.28);
+  --amber: #e8b15a;
+  --moss: #8eae86;
+  --idle: #8ea0b8;
+  --working: #f0c36a;
+  --waiting: #e08a4f;
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  font-family: "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 12% -10%, rgba(232, 177, 90, 0.16), transparent 32%),
+    radial-gradient(circle at 90% 0%, rgba(142, 174, 134, 0.12), transparent 28%),
+    var(--bg);
+}
+
+button,
+textarea,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.sky {
+  width: min(1180px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 1.5rem 0 2.5rem;
+}
+
+.mast {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  align-items: end;
+  margin-bottom: 1.25rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.35rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: 0.74rem;
+  color: var(--amber);
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
+  font-weight: 560;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+}
+
+.lede {
+  max-width: 40rem;
+  margin-top: 0.7rem;
+  color: var(--muted);
+  font-family: "Segoe UI", system-ui, sans-serif;
+  line-height: 1.45;
+}
+
+.beat-chip {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 12rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: rgba(16, 13, 22, 0.55);
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+.beat-chip span {
+  color: var(--amber);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.9fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.side {
+  display: grid;
+  gap: 1rem;
+}
+
+.panel {
+  border: 1px solid var(--line);
+  border-radius: 1.25rem;
+  background: var(--bg-raise);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+
+.panel-head h2 {
+  font-size: 1.35rem;
+  font-weight: 560;
+}
+
+.panel-head p,
+.hint,
+.notice,
+.roster-note,
+.roster-building,
+.log-line span,
+.lot-status {
+  color: var(--muted);
+  font-family: "Segoe UI", system-ui, sans-serif;
+  line-height: 1.45;
+}
+
+.panel-head p {
+  margin-top: 0.3rem;
+}
+
+.panel-head-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.city-stage {
+  position: relative;
+  margin-top: 0.85rem;
+  min-height: 520px;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: #100d16;
+}
+
+.city-stage canvas {
+  display: block;
+  width: 100% !important;
+  height: 520px !important;
+}
+
+.legend {
+  position: absolute;
+  left: 0.75rem;
+  bottom: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 0.8rem;
+  margin: 0;
+  padding: 0.45rem 0.65rem;
+  list-style: none;
+  border-radius: 999px;
+  background: rgba(16, 13, 22, 0.72);
+  font-family: "Segoe UI", system-ui, sans-serif;
+  font-size: 0.78rem;
+}
+
+.legend li,
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.swatch {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.label-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.pin:not([data-placed="true"]) {
+  opacity: 0;
+}
+
+.pin {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border: 1px solid rgba(231, 196, 140, 0.5);
+  background: rgba(16, 13, 22, 0.86);
+  color: #f6efe2;
+  border-radius: 999px;
+  padding: 0.12rem 0.45rem;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  font-size: 12px;
+  line-height: 1.3;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.pin[data-placed="true"] {
+  pointer-events: auto;
+}
+
+.pin.is-selected {
+  color: #2a1c0c;
+  background: var(--amber);
+  border-color: var(--amber);
+}
+
+.lot-fallback {
+  min-height: 520px;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr 1fr;
+  grid-template-areas:
+    "invoice tower review"
+    "triage tower parts"
+    "callback callback parts";
+  gap: 0.7rem;
+  padding: 0.9rem;
+}
+
+.lot-building {
+  text-align: left;
+  border-radius: 0.9rem;
+  border: 1px solid var(--line);
+  background: rgba(16, 13, 22, 0.45);
+  padding: 0.75rem;
+  display: grid;
+  align-content: end;
+  gap: 0.15rem;
+}
+
+.lot-building[data-slot="invoice-drafter"] { grid-area: invoice; }
+.lot-building[data-slot="night-dispatcher"] { grid-area: tower; }
+.lot-building[data-slot="review-requests"] { grid-area: review; }
+.lot-building[data-slot="ticket-triage"] { grid-area: triage; }
+.lot-building[data-slot="parts-runner"] { grid-area: parts; }
+.lot-building[data-slot="callback-keeper"] { grid-area: callback; }
+
+.lot-building.is-selected,
+.roster-card.is-selected {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+}
+
+.lot-kicker,
+.roster-building,
+.on-lot {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.lot-name {
+  font-size: 1.05rem;
+}
+
+.roster,
+.activity-log {
+  list-style: none;
+  margin: 0.85rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.roster-card {
+  width: 100%;
+  text-align: left;
+  border-radius: 0.9rem;
+  border: 1px solid transparent;
+  background: rgba(16, 13, 22, 0.45);
+  padding: 0.75rem 0.8rem;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.roster-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  align-items: start;
+}
+
+.roster-name {
+  font-size: 1.05rem;
+}
+
+.status-pill {
+  flex: none;
+  border-radius: 999px;
+  padding: 0.15rem 0.45rem;
+  background: rgba(255, 255, 255, 0.04);
+  font-family: "Segoe UI", system-ui, sans-serif;
+  font-size: 0.75rem;
+}
+
+.status-pill[data-status="waiting"] .swatch {
+  animation: lantern 1.6s ease-in-out infinite;
+}
+
+.on-lot {
+  color: var(--amber);
+}
+
+.log-block h3 {
+  margin-top: 1rem;
+  font-size: 1rem;
+  font-weight: 560;
+}
+
+.log-line {
+  display: grid;
+  grid-template-columns: 3.2rem 1fr;
+  gap: 0.55rem;
+  padding: 0.35rem 0.2rem;
+  border-top: 1px solid rgba(231, 196, 140, 0.12);
+}
+
+.log-line.is-related {
+  background: rgba(232, 177, 90, 0.08);
+  border-radius: 0.4rem;
+}
+
+.log-line time {
+  color: var(--amber);
+  font-family: "Segoe UI", system-ui, sans-serif;
+  font-size: 0.82rem;
+}
+
+.log-line strong {
+  display: block;
+  font-weight: 600;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.85rem;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  font-size: 0.86rem;
+}
+
+textarea,
+input {
+  width: 100%;
+  border-radius: 0.8rem;
+  border: 1px solid var(--line);
+  background: #1a140f;
+  padding: 0.75rem;
+  resize: vertical;
+}
+
+textarea:focus,
+input:focus,
+button:focus-visible,
+.roster-card:focus-visible,
+.lot-building:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+}
+
+.desk-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.solid-button,
+.ghost-button {
+  border-radius: 999px;
+  padding: 0.45rem 0.8rem;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  font-size: 0.86rem;
+}
+
+.solid-button {
+  border: 1px solid transparent;
+  background: var(--amber);
+  color: #2a1c0c;
+}
+
+.ghost-button {
+  border: 1px solid var(--line);
+  background: transparent;
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.ghost-button span {
+  color: var(--muted);
+}
+
+.ghost-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.drafts {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 0.9rem;
+}
+
+.drafts article {
+  padding: 0.8rem;
+  border-radius: 0.9rem;
+  background: rgba(16, 13, 22, 0.4);
+}
+
+.drafts h3 {
+  font-size: 0.95rem;
+  margin-bottom: 0.35rem;
+}
+
+.draft-text,
+.drafts p {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+.notice,
+.hint {
+  font-size: 0.86rem;
+}
+
+.key-box {
+  margin-top: 0.9rem;
+  border-top: 1px solid rgba(231, 196, 140, 0.16);
+  padding-top: 0.7rem;
+}
+
+.key-box summary {
+  cursor: pointer;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+.key-box p {
+  margin-top: 0.45rem;
+  color: var(--muted);
+  font-family: "Segoe UI", system-ui, sans-serif;
+  line-height: 1.45;
+}
+
+.colophon {
+  margin-top: 1rem;
+  color: var(--muted);
+  font-family: "Segoe UI", system-ui, sans-serif;
+  font-size: 0.82rem;
+}
+
+@keyframes lantern {
+  0%,
+  100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-pill[data-status="waiting"] .swatch {
+    animation: none;
+  }
+}
+
+@media (max-width: 960px) {
+  .layout,
+  .mast {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+
+  .city-stage,
+  .city-stage canvas,
+  .lot-fallback {
+    min-height: 420px;
+    height: auto;
+  }
+
+  .city-stage canvas {
+    height: 420px !important;
+  }
+
+  .lot-fallback {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "tower tower"
+      "triage parts"
+      "invoice review"
+      "callback callback";
+  }
+}

@@ -1,0 +1,16 @@
+# Dependencies and build output
+node_modules/
+dist/
+coverage/
+
+# Secrets and local env files. Never commit these.
+.env
+.env.*
+!.env.example
+
+# Editor and OS
+.DS_Store
+*.local
+.vite/
+
+# .kiro holds specs, steering, and hooks. Do not ignore it.

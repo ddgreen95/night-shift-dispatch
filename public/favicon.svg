@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Pine and moon">
+  <rect width="32" height="32" rx="6" fill="#14101c"/>
+  <circle cx="23" cy="9" r="4" fill="#f3e2bc"/>
+  <path d="M7 27 L14 11 L21 27 Z" fill="#1f4a42"/>
+  <path d="M11 27 L16 15 L21 27 Z" fill="#2f6b5e"/>
+  <rect x="15" y="24" width="2" height="4" fill="#3d2c24"/>
+</svg>
